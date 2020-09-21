@@ -1,31 +1,28 @@
-import React from "react";
+import React, { useContext } from "react";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import Checkbox from "@material-ui/core/Checkbox";
-import IconButton from "@material-ui/core/IconButton";
-// import DeleteIcon from "@material-ui/icons/Delete";
 
-const TodoList = ({ todos, deleteTodo }) => {
+import TodoItem from "./TodoItem";
+
+// import DeleteIcon from "@material-ui/icons/Delete";
+import { TaskListContext } from "./context/store";
+
+const TodoList = () => {
+  const { tasks } = useContext(TaskListContext);
+
   return (
     <List>
-      {todos.map((todo, index) => (
-        <ListItem key={index.toString()} dense button>
-          <Checkbox tabIndex={-1} disableRipple />
-          <ListItemText primary={todo} />
-          <ListItemSecondaryAction>
-            <IconButton
-              aria-label="Delete"
-              onClick={() => {
-                deleteTodo(index);
-              }}
-            >
-              x
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-      ))}
+      {tasks.length ? (
+        tasks.map((taskItem) => (
+          <TodoItem
+            id={taskItem.id}
+            title={taskItem.title}
+            status={taskItem.status}
+            item={taskItem}
+          />
+        ))
+      ) : (
+        <h1>No Task ATM</h1>
+      )}
     </List>
   );
 };

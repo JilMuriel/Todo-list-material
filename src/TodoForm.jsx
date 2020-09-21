@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import TextField from "@material-ui/core/TextField";
+import { TaskListContext } from "./context/store";
 
-const TodoForm = ({ saveTodo }) => {
+const TodoForm = () => {
   const [value, setValue] = useState("");
+  const { addTask } = useContext(TaskListContext);
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    saveTodo(value);
+    addTask(value);
     setValue("");
   };
- 
 
   return (
     <form onSubmit={handleSubmit}>
@@ -17,11 +21,9 @@ const TodoForm = ({ saveTodo }) => {
         variant="outlined"
         placeholder="Add todo"
         margin="normal"
-        onChange={(event) => {
-          setValue(event.target.value);
-        }}
+        onChange={handleChange}
         value={value}
-      />{" "}
+      />
     </form>
   );
 };
