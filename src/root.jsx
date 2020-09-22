@@ -1,33 +1,19 @@
-import React, { useState } from "react";
-import RootStyles from "./root.css";
+import React from "react";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
-import { Typography } from "@material-ui/core";
+import { Typography, Container } from "@material-ui/core";
+import TaskListContextProvider from "./context/store";
 function Root() {
-  const [todos, setTodos] = useState([]);
   return (
-    <div className={RootStyles.root}>
-      <Typography component="h1" variant="h2">
-        Todos
-      </Typography>
-      <TodoForm
-        saveTodo={(todoText) => {
-          const trimmedText = todoText.trim();
-
-          if (trimmedText.length > 0) {
-            setTodos([...todos, trimmedText]);
-          }
-        }}
-      />
-      <TodoList
-        todos={todos}
-        deleteTodo={(todoIndex) => {
-          const newTodos = todos.filter((_, index) => index !== todoIndex);
-
-          setTodos(newTodos);
-        }}
-      />
-    </div>
+    <TaskListContextProvider>
+      <Container>
+        <Typography component="h1" variant="h2">
+          Todos
+        </Typography>
+        <TodoForm />
+        <TodoList />
+      </Container>
+    </TaskListContextProvider>
   );
 }
 
